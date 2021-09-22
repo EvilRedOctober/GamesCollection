@@ -17,7 +17,7 @@ class Five_in_a_row(Board):
                                [[i == 4 for _ in range(9)] for i in range(9)],
                                [[j == 4 for j in range(9)] for _ in range(9)],
                                [[i + j == 8 for j in range(9)] for i in range(9)]])
-    SCORES_THRESHOLD = 7000
+    MAX_SCORES = 99999
 
     def __init__(self, size: int = 15, turn: int = 1, field: np.ndarray = None, moves: list[list[Move]] = None,
                  legal_moves: set = None):
@@ -39,6 +39,7 @@ class Five_in_a_row(Board):
         self._turn = turn
         self._legal_moves = legal_moves
         self._moves = moves
+        self.win_pos = []
 
     def move(self, location: Move):
         x, y = location
@@ -67,7 +68,7 @@ class Five_in_a_row(Board):
         last_move = last_player_moves[-1]
         moves_2_check = [(x, y) for x, y in self.get_neighbours(last_move, 2) if self._field[x][y] == last_player]
         for x, y in moves_2_check:
-            for template in self.WIN_TEMPLATES:
+            for num, template in enumerate(self.WIN_TEMPLATES):
                 # Non-border moves
                 if 1 < x < self._size - 2 and 1 < y < self._size - 2:
                     # Area near move
@@ -75,6 +76,10 @@ class Five_in_a_row(Board):
                     # Count identical moves in the places of the template
                     if (w[template] == w[2][2]).sum() == 5:
                         # If five in a row - win
+                        dx, dy = [(1, 1), (0, 1), (1, 0), (1, -1)][num]
+                        self.win_pos = []
+                        for k in range(-2, 3):
+                            self.win_pos.append((x + k * dx, y + k * dy))
                         return True
 
     @property
