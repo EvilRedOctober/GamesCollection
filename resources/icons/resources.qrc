@@ -1,0 +1,14 @@
+<RCC>
+  <qresource prefix="Icons">
+    <file>exit.png</file>
+    <file>Qt.png</file>
+    <file>start.png</file>
+    <file>cross.png</file>
+    <file>drawing.svg</file>
+    <file>hare.png</file>
+    <file>5-in-a-row.png</file>
+    <file>cross.png</file>
+    <file>Hare&amp;Wolves.png</file>
+    <file>Naught.png</file>
+  </qresource>
+</RCC>
