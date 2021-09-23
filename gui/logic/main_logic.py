@@ -6,6 +6,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from gui.forms.main_form import Ui_MainWindow
 from gui.logic.abstracts import AbstractGameForm
 from gui.logic.five_in_a_row import FiveForm
+from gui.logic.hare_and_wolves import HareForm
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -22,10 +23,14 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         # Toolbar setting
         self.toolBar.addAction(QtGui.QIcon(":/Icons/5-in-a-row.png"),  "Пять в ряд", self.five_in_a_row)
-        self.toolBar.addAction(QtGui.QIcon(":/Icons/Hare&Wolves.png"), "Заяц и волки")
+        self.toolBar.addAction(QtGui.QIcon(":/Icons/Hare&Wolves.png"), "Заяц и волки", self.hare_and_wolf)
 
     def five_in_a_row(self):
         w = FiveForm()
+        self.set_game(w)
+
+    def hare_and_wolf(self):
+        w = HareForm()
         self.set_game(w)
 
     def set_game(self, game_form: AbstractGameForm):
