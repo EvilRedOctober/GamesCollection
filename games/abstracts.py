@@ -41,7 +41,7 @@ class Piece:
 
 class Board(ABC):
     """Basic class for a board of game. Contains state of board for current turn."""
-    SCORES_THRESHOLD = 100
+    MAX_SCORES = 100
 
     @abstractmethod
     def __init__(self, turn: int = 1, size: int = 8, field: Union[list[list[Piece]], np.ndarray] = None):
