@@ -69,6 +69,8 @@ class AbstractGameForm(QtWidgets.QWidget, Ui_GameForm):
     Board_Class = Board
     Cell_Class = AbstractCell
 
+    resizeSignal = QtCore.pyqtSignal(int, int)
+
     def __init__(self, parent: QtWidgets.QWidget = None):
         super(AbstractGameForm, self).__init__(parent)
         self.setupUi(self)
@@ -85,22 +87,31 @@ class AbstractGameForm(QtWidgets.QWidget, Ui_GameForm):
         # Game settings
         is_AI = self.isComputer.isChecked()
         difficulty_settings = self.DIFFICULTY_LEVELS[self.difficultyLevelsCombo.currentText()]
-        size = int(self.sizesCombo.currentText())
+        N = int(self.sizesCombo.currentText())
         AI_player = self.computerPlayerCombo.currentIndex() + 1
-        board = self.Board_Class(turn=1, size=size)
+        board = self.Board_Class(turn=1, size=N)
         self.party = Party(self, board, is_AI, AI_player, difficulty_settings)
 
         # Field setup
         self.boardField.setSpacing(0)
+        # Clear old grid
         for i in reversed(range(self.boardField.count())):
+            print(i)
             self.boardField.itemAt(i).widget().setParent(None)
-        for i in range(size):
-            for j in range(size):
+        # Create new grid
+        for i in range(N):
+            for j in range(N):
                 w = self.Cell_Class(i, j, board.get_value(i, j))
                 w.clicked.connect(self.apply_move)
                 self.boardField.addWidget(w, i, j)
+        # Do computer move or wait for player
         self.party.run()
+        # Repaint and resize
         self.update_values()
+        size = self.boardField.itemAtPosition(0, 0).widget().SIZE
+        width = N * size + 50 + self.settingsFrame.width()
+        height = N * size + 140
+        self.resizeSignal.emit(width, height)
 
     def update_values(self):
         available_moves = set(self.party.board.legal_moves)
