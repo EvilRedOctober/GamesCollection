@@ -61,7 +61,8 @@ def find_best_move(board: Board, max_depth: int = 0, randomizing: int = 0) -> Un
     best_move = moves[0]
     for move in moves:
         scores = alphabeta(board.move(move), player, max_depth, alpha=best_scores)
-        scores = scores if scores > board.SCORES_THRESHOLD else scores * randint(1, 1 + randomizing)
+        if randomizing:
+            scores = scores + (board.MAX_SCORES - scores) * randint(0 + randomizing//2, 0 + randomizing) / 20
         # print(move, scores)
         if scores > best_scores:
             best_move = move
@@ -72,7 +73,7 @@ def find_best_move(board: Board, max_depth: int = 0, randomizing: int = 0) -> Un
 if __name__ == '__main__':
     from games.five_in_a_row import Five_in_a_row
     wins = [0, 0]
-    for i in range(50):
+    for i in range(100):
         test_board = Five_in_a_row(15)
         while True:
             if test_board.is_win:
@@ -82,5 +83,5 @@ if __name__ == '__main__':
             if test_board.is_draw:
                 print('Round draw!')
                 break
-            test_board = test_board.move(find_best_move(test_board, 0, 1 if test_board.turn == 1 else 0))
+            test_board = test_board.move(find_best_move(test_board, 0, 20 if test_board.turn == 1 else 0))
     print(wins)
