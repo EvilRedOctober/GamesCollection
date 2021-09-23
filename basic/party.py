@@ -28,32 +28,20 @@ class Party:
         self.AI_player = AI_player
         self.difficulty_settings = difficulty_settings
 
-    def run(self) -> bool:
+    def run(self) -> int:
         """Find AI's best move and apply it or wait for player move."""
         if self.board.is_draw:
-            QtWidgets.QMessageBox.information(self.form,
-                                              "Ничья!",
-                                              "Никто не победил!",
-                                              buttons=QtWidgets.QMessageBox.Ok)
-            return True
+            return 3
         elif self.board.is_win:
-            if self.isAI and self.board.last_turn == self.AI_player:
-                text = "Победил компьютер!"
-            else:
-                text = "Победил игрок %s!" % str(self.board.last_turn)
-            QtWidgets.QMessageBox.information(self.form,
-                                              "Победа!",
-                                              text,
-                                              buttons=QtWidgets.QMessageBox.Ok)
-            return True
+            return self.board.last_turn
         if self.isAI and self.board.turn == self.AI_player:
             best_move = find_best_move(self.board, **self.difficulty_settings)
             self.board = self.board.move(best_move)
             return self.run()
         else:
-            return False
+            return 0
 
-    def do_move(self, move: Union[Move, tuple[Move, Move]]) -> bool:
+    def do_move(self, move: Union[Move, tuple[Move, Move]]) -> int:
         """Apply player's move."""
         try:
             self.board = self.board.move(move)
@@ -63,4 +51,4 @@ class Party:
                                               "Невозможный ход!",
                                               "Данный ход %s нельзя совершить! Выберите другой ход!" % str(move),
                                               buttons=QtWidgets.QMessageBox.Ok)
-            return False
+            return 0
