@@ -32,6 +32,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         if self.gameArea.layout().count() == 1:
             self.gameArea.layout().itemAt(0).widget().setParent(None)
         self.gameArea.layout().addWidget(game_form)
+        game_form.resizeSignal.connect(self.resize)
 
     def about(self):
         QtWidgets.QMessageBox.information(self, "О программе",
