@@ -13,7 +13,7 @@ class FiveCell(AbstractCell):
     INNER_COLOR1 = QtGui.QColor(255, 225, 175)
     INNER_COLOR2 = INNER_COLOR1
     OUTER_COLOR = QtGui.QColor(150, 150, 150)
-    HELP_COLOR = QtGui.QColor(100, 60, 10)
+    HELP_COLOR = INNER_COLOR1
 
     def __init__(self, *args, **kwargs):
         super(FiveCell, self).__init__(*args, **kwargs)
@@ -26,7 +26,7 @@ class FiveCell(AbstractCell):
             p = QtGui.QPainter(self)
             p.setRenderHint(p.Antialiasing)
             pen = QtGui.QPen(QtGui.QColor(0, 0, 0))
-            pen.setWidth(4)
+            pen.setWidth(3)
             p.setPen(pen)
             coords = [(0, 0, self.SIZE, self.SIZE),
                       (self.SIZE//2, 0, self.SIZE//2, self.SIZE),
