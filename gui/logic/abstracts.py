@@ -96,7 +96,6 @@ class AbstractGameForm(QtWidgets.QWidget, Ui_GameForm):
         self.boardField.setSpacing(0)
         # Clear old grid
         for i in reversed(range(self.boardField.count())):
-            print(i)
             self.boardField.itemAt(i).widget().setParent(None)
         # Create new grid
         for i in range(N):
