@@ -26,7 +26,8 @@ class Wolf(Piece):
 class Hare_and_wolves(Board):
     _size = 8
 
-    def __init__(self, turn: int = 1, field: np.ndarray = None, hare_pos: Move = None, wolves_poses: list[Move] = None):
+    def __init__(self, turn: int = 1, field: np.ndarray = None, hare_pos: Move = None, wolves_poses: list[Move] = None,
+                 *args, **kwargs):
         """
 
         A game board for hare and wolves. First player plays with one hare, second - with four wolves.
