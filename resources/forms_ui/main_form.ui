@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>600</height>
+    <height>700</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>800</width>
-    <height>600</height>
+    <height>700</height>
    </size>
   </property>
   <property name="font">
@@ -26,8 +26,8 @@
    <string>Коллекция игр</string>
   </property>
   <property name="windowIcon">
-   <iconset>
-    <normaloff>:/icons/main.png</normaloff>:/icons/main.png</iconset>
+   <iconset resource="../icons/resources.qrc">
+    <normaloff>:/Icons/GamesCollections.png</normaloff>:/Icons/GamesCollections.png</iconset>
   </property>
   <property name="dockOptions">
    <set>QMainWindow::AllowNestedDocks|QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks</set>

@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="Icons">
+    <file>GamesCollections.png</file>
     <file>exit.png</file>
     <file>Qt.png</file>
     <file>start.png</file>
