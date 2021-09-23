@@ -4,14 +4,16 @@
 from PyQt5 import QtWidgets, QtCore, QtGui
 
 from basic.party import Party
-from games.abstracts import Board, Move
+from games.abstracts import Board
 from gui.forms.game_form import Ui_GameForm
 
 
 class AbstractCell(QtWidgets.QWidget):
     """Abstract class for game form with basic logic."""
+    SIZE = 40
     ICONS = (None, ":/Icons/cross.png", ":/Icons/naught.png")
-    OUTER_COLOR = QtCore.Qt.lightGray
+    OUTER_COLOR = QtGui.QColor(200, 200, 200)
+    HELP_COLOR = QtGui.QColor(225, 200, 0)
     INNER_COLOR1 = QtGui.QColor(50, 50, 50)
     INNER_COLOR2 = QtGui.QColor(200, 225, 200)
 
@@ -19,12 +21,13 @@ class AbstractCell(QtWidgets.QWidget):
 
     def __init__(self, x: int, y: int, value: int, *args, **kwargs):
         super(AbstractCell, self).__init__(*args, **kwargs)
-        self.setFixedSize(QtCore.QSize(40, 40))
+        self.setFixedSize(QtCore.QSize(self.SIZE, self.SIZE))
 
         self.x = x
         self.y = y
         self.value = value
         self.isAvailable = True
+        self.status = 0
 
     def paintEvent(self, event: QtGui.QPaintEvent):
         # Painting rectangle
@@ -33,12 +36,19 @@ class AbstractCell(QtWidgets.QWidget):
 
         r = event.rect()
         if (self.x + self.y) % 2:
-            brush = QtGui.QBrush(self.INNER_COLOR1)
+            inner_color = self.INNER_COLOR1
         else:
-            brush = QtGui.QBrush(self.INNER_COLOR2)
+            inner_color = self.INNER_COLOR2
+        brush = QtGui.QBrush(inner_color)
         p.fillRect(r, brush)
+        pen = QtGui.QPen(inner_color)
+        if self.status == 1:
+            pen = QtGui.QPen(self.HELP_COLOR)
+        pen.setWidth(2)
+        p.setPen(pen)
+        p.drawRect(2, 2, self.SIZE - 4, self.SIZE - 4)
         pen = QtGui.QPen(self.OUTER_COLOR)
-        pen.setWidth(1)
+        pen.setWidth(2)
         p.setPen(pen)
         p.drawRect(r)
         image = self.ICONS[self.value]
@@ -74,7 +84,6 @@ class AbstractGameForm(QtWidgets.QWidget, Ui_GameForm):
     def game_start(self):
         # Game settings
         is_AI = self.isComputer.isChecked()
-        print(is_AI)
         difficulty_settings = self.DIFFICULTY_LEVELS[self.difficultyLevelsCombo.currentText()]
         size = int(self.sizesCombo.currentText())
         AI_player = self.computerPlayerCombo.currentIndex() + 1
@@ -82,6 +91,7 @@ class AbstractGameForm(QtWidgets.QWidget, Ui_GameForm):
         self.party = Party(self, board, is_AI, AI_player, difficulty_settings)
 
         # Field setup
+        self.boardField.setSpacing(0)
         for i in reversed(range(self.boardField.count())):
             self.boardField.itemAt(i).widget().setParent(None)
         for i in range(size):
@@ -93,17 +103,38 @@ class AbstractGameForm(QtWidgets.QWidget, Ui_GameForm):
         self.update_values()
 
     def update_values(self):
+        available_moves = set(self.party.board.legal_moves)
         for i in reversed(range(self.boardField.count())):
             w = self.boardField.itemAt(i).widget()
             value = self.party.board.get_value(w.x, w.y)
             w.value = value
             if value:
                 w.isAvailable = False
-                w.update()
+            if (w.x, w.y) in available_moves:
+                w.status = 1
+            else:
+                w.status = 0
+            w.update()
 
     def apply_move(self, x, y):
-        if self.party.do_move((x, y)):
+        res = self.party.do_move((x, y))
+        self.update_values()
+        if res:
             for i in reversed(range(self.boardField.count())):
                 w = self.boardField.itemAt(i).widget()
                 w.isAvailable = False
-        self.update_values()
+                w.status = 0
+            if res == 3:
+                QtWidgets.QMessageBox.information(self,
+                                                  "Ничья!",
+                                                  "Никто не победил!",
+                                                  buttons=QtWidgets.QMessageBox.Ok)
+            else:
+                if self.party.isAI and res == self.party.AI_player:
+                    text = "Победил компьютер!"
+                else:
+                    text = "Победили %s!" % self.computerPlayerCombo.itemText(res - 1).lower()
+                QtWidgets.QMessageBox.information(self,
+                                                  "Победа!",
+                                                  text,
+                                                  buttons=QtWidgets.QMessageBox.Ok)
