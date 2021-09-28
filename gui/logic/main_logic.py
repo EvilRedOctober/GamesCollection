@@ -7,6 +7,7 @@ from gui.forms.main_form import Ui_MainWindow
 from gui.logic.abstracts import AbstractGameForm
 from gui.logic.five_in_a_row import FiveForm
 from gui.logic.hare_and_wolves import HareForm
+from gui.logic.reversi import ReversiForm
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -24,6 +25,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         # Toolbar setting
         self.toolBar.addAction(QtGui.QIcon(":/Icons/5-in-a-row.png"),  "Пять в ряд", self.five_in_a_row)
         self.toolBar.addAction(QtGui.QIcon(":/Icons/Hare&Wolves.png"), "Заяц и волки", self.hare_and_wolf)
+        self.toolBar.addAction(QtGui.QIcon(":/Icons/reversi.png"), "Реверси", self.reversi)
 
     def five_in_a_row(self):
         w = FiveForm()
@@ -31,6 +33,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def hare_and_wolf(self):
         w = HareForm()
+        self.set_game(w)
+
+    def reversi(self):
+        w = ReversiForm()
         self.set_game(w)
 
     def set_game(self, game_form: AbstractGameForm):

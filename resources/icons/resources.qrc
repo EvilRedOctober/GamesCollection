@@ -1,15 +1,17 @@
 <RCC>
   <qresource prefix="Icons">
-    <file>GamesCollections.png</file>
-    <file>exit.png</file>
-    <file>Qt.png</file>
-    <file>start.png</file>
-    <file>cross.png</file>
-    <file>hare.png</file>
-    <file>wolf.png</file>
     <file>5-in-a-row.png</file>
+    <file>blueStone.png</file>
     <file>cross.png</file>
+    <file>exit.png</file>
+    <file>GamesCollections.png</file>
     <file>Hare&amp;Wolves.png</file>
+    <file>hare.png</file>
     <file>Naught.png</file>
+    <file>Qt.png</file>
+    <file>reversi.png</file>
+    <file>start.png</file>
+    <file>wolf.png</file>
+    <file>yellowStone.png</file>
   </qresource>
 </RCC>
