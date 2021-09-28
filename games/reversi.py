@@ -52,6 +52,10 @@ class Reversi(Board):
         if len(self._legal_moves) == 0:
             self._gem_counters[0] = 0
 
+    @property
+    def get_gem_count(self):
+        return self._gem_counters[1], self._gem_counters[2]
+
     def check_legal_moves(self):
         self._legal_moves = []
         for x, y in self._boundary_moves:

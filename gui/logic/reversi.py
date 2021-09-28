@@ -52,6 +52,13 @@ class ReversiForm(AbstractGameForm):
 
     def __init__(self, parent: QtWidgets.QWidget = None):
         super(ReversiForm, self).__init__(parent)
+        # Set score label
+        label = QtWidgets.QLabel('')
+        label.setAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+        label.setMaximumHeight(20)
+        label.setObjectName('Scores')
+        self.Scores = label
+        self.boardFrame.layout().setSpacing(0)
         self.setup_form()
 
     def update_values(self):
@@ -73,3 +80,12 @@ class ReversiForm(AbstractGameForm):
             x, y = self.party.board.last_move
             self.boardField.itemAtPosition(x, y).widget().status = 2
             self.boardField.itemAtPosition(x, y).widget().update()
+        # Change score label's text
+        y, p = self.party.board.get_gem_count
+        if y > p:
+            sign = '>'
+        elif y < p:
+            sign = '<'
+        else:
+            sign = '='
+        self.Scores.setText('Жёлтые: %i %s Фиолетовые: %i' % (y, sign, p))
