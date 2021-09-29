@@ -1,5 +1,10 @@
 <RCC>
   <qresource prefix="Icons">
+    <file>blueKing.png</file>
+    <file>blueMen.png</file>
+    <file>Checkers.png</file>
+    <file>redKing.png</file>
+    <file>redMen.png</file>
     <file>5-in-a-row.png</file>
     <file>blueStone.png</file>
     <file>cross.png</file>
