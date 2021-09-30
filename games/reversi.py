@@ -29,10 +29,8 @@ class Reversi(Board):
             field[size // 2][size // 2] = Figure(1)
             field[size // 2 - 1][size // 2] = Figure(2)
             field[size // 2][size // 2 - 1] = Figure(2)
-            boundary_moves = {(size // 2 - 2, size // 2 - 1), (size // 2 - 2, size // 2),
-                              (size // 2 + 1, size // 2 - 1), (size // 2 + 1, size // 2),
-                              (size // 2 - 1, size // 2 - 2), (size // 2, size // 2 - 2),
-                              (size // 2 - 1, size // 2 + 1), (size // 2, size // 2 + 1)}
+            boundary_moves = {(i, j) for i in range(size // 2 - 2, size // 2 + 2)
+                              for j in range(size // 2 - 2, size // 2 + 2) if field[i][j] == 0}
         self._field = field
         self._size = size
         self._turn = turn
@@ -87,7 +85,7 @@ class Reversi(Board):
         x, y = location
         new_boundary_moves = self._boundary_moves.copy()
         new_boundary_moves.remove((x, y))
-        for i, j in ((x, y + 1), (x, y - 1), (x + 1, y), (x - 1, y)):
+        for i, j in self.get_neighbours((x, y)):
             if 0 <= i < self._size and 0 <= j < self._size and self._field[i][j] == 0:
                 new_boundary_moves.add((i, j))
         new_field = self._field.copy()
