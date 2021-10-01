@@ -54,6 +54,7 @@ class HareForm(AbstractGameForm):
         self.figure_selected = None
 
     def undo_selection(self):
+        print('UNDO!')
         self.figure_selected = None
         self.update_values()
 
@@ -77,8 +78,7 @@ class HareForm(AbstractGameForm):
 
     def apply_move(self, x, y):
         self.update_values()
-        value = self.party.board.get_value(x, y)
-        if self.figure_selected is None and value == self.party.board.turn:
+        if self.figure_selected is None:
             self.figure_selected = (x, y)
             self.update_values()
             return
