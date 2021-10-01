@@ -145,6 +145,6 @@ class AbstractGameForm(QtWidgets.QWidget, Ui_GameForm):
                 else:
                     text = "Победили %s!" % self.computerPlayerCombo.itemText(res - 1).lower()
                 QtWidgets.QMessageBox.information(self,
-                                                  "Победа!",
+                                                  "Конец игры!",
                                                   text,
                                                   buttons=QtWidgets.QMessageBox.Ok)
