@@ -84,10 +84,10 @@ class Reversi(Board):
             raise (IndexError('Current location (%d, %d) is already occupied' % location))
         x, y = location
         new_boundary_moves = self._boundary_moves.copy()
-        new_boundary_moves.remove((x, y))
         for i, j in self.get_neighbours((x, y)):
             if 0 <= i < self._size and 0 <= j < self._size and self._field[i][j] == 0:
                 new_boundary_moves.add((i, j))
+        new_boundary_moves.remove((x, y))
         new_field = self._field.copy()
         new_field[x][y] = Figure(self.turn)
         for dx, dy in ((0, 1), (0, -1), (1, 0), (-1, 0), (1, 1), (-1, -1), (1, -1), (-1, 1)):
