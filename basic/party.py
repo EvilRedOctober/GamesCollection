@@ -42,7 +42,7 @@ class Party:
             return 0
 
     def do_move(self, move: Union[Move, tuple[Move, Move]]) -> int:
-        """Apply player's move."""
+        """Apply player's move. Returns 0 if no one game go on, 1 or 2 for number of winner, 3 if draw."""
         try:
             self.board = self.board.move(move)
             return self.run()
