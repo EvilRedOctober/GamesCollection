@@ -58,7 +58,6 @@ class HareForm(AbstractGameForm):
         self.figure_selected = None
 
     def undo_selection(self):
-        print('UNDO!')
         self.figure_selected = None
         self.update_values()
 
