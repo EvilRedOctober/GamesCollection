@@ -42,6 +42,10 @@ class HareForm(AbstractGameForm):
     Board_Class = Hare_and_wolves
     Cell_Class = HareCell
 
+    COMPUTER_WIN_TEXT = 'Победил компьютер!'
+    FIRST_WIN_TEXT = 'Победил заяц!'
+    SECOND_WIN_TEXT = 'Победили волки!'
+
     def __init__(self, parent: QtWidgets.QWidget = None):
         super(HareForm, self).__init__(parent)
         self.setup_form()
@@ -86,18 +90,23 @@ class HareForm(AbstractGameForm):
         self.figure_selected = None
         self.update_values()
         if res:
-            for i in reversed(range(self.boardField.count())):
+            for i in range(self.boardField.count()):
                 w = self.boardField.itemAt(i).widget()
                 w.isAvailable = False
                 w.status = 0
-            else:
+            if res < 3:
                 if self.party.isAI and res == self.party.AI_player:
-                    text = "Победил компьютер!"
+                    text = self.COMPUTER_WIN_TEXT
                 elif res == 1:
-                    text = "Победил заяц!"
+                    text = self.FIRST_WIN_TEXT
                 else:
-                    text = "Победили волки!"
+                    text = self.SECOND_WIN_TEXT
                 QtWidgets.QMessageBox.information(self,
-                                                  "Победа!",
+                                                  "Конец игры!",
                                                   text,
+                                                  buttons=QtWidgets.QMessageBox.Ok)
+            else:
+                QtWidgets.QMessageBox.information(self,
+                                                  "Ничья!",
+                                                  "Никто не победил!",
                                                   buttons=QtWidgets.QMessageBox.Ok)
