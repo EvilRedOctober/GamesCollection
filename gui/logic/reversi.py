@@ -59,6 +59,7 @@ class ReversiForm(AbstractGameForm):
         label.setObjectName('Scores')
         self.Scores = label
         self.boardFrame.layout().setSpacing(0)
+        self.boardFrame.layout().addWidget(label, 1, 1)
         self.setup_form()
 
     def update_values(self):
