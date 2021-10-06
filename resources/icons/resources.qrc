@@ -1,5 +1,9 @@
 <RCC>
   <qresource prefix="Icons">
+    <file>blackGem.png</file>
+    <file>blueGem.png</file>
+    <file>Flume.png</file>
+    <file>greenGem.png</file>
     <file>blueKing.png</file>
     <file>blueMen.png</file>
     <file>Checkers.png</file>
