@@ -28,7 +28,7 @@
          offset="0"
          id="stop2097" />
       <stop
-         style="stop-color:#ff6400;stop-opacity:1"
+         style="stop-color:#ff6400;stop-opacity:0"
          offset="1"
          id="stop2099" />
     </linearGradient>
@@ -1298,12 +1298,12 @@
        inkscape:collect="always"
        xlink:href="#linearGradient2101"
        id="radialGradient2103"
-       cx="49.833552"
-       cy="67.321935"
-       fx="49.833552"
-       fy="67.321935"
+       cx="49.833553"
+       cy="67.321938"
+       fx="49.833553"
+       fy="67.321938"
        r="27.558567"
-       gradientTransform="matrix(1,0,0,1.152525,0,-10.268281)"
+       gradientTransform="matrix(7.0287678e-7,-1.0423192,0.9860285,6.6921872e-7,-16.547832,119.26436)"
        gradientUnits="userSpaceOnUse" />
   </defs>
   <sodipodi:namedview
@@ -1313,9 +1313,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.5411757"
-     inkscape:cx="152.21071"
-     inkscape:cy="867.2145"
+     inkscape:zoom="0.77058785"
+     inkscape:cx="62.252061"
+     inkscape:cy="948.84352"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -1351,7 +1351,7 @@
      inkscape:groupmode="layer"
      id="layer1">
     <path
-       style="opacity:1;fill:url(#radialGradient2103);fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.77012324;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
+       style="opacity:1;fill:url(#radialGradient2103);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.77012324;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
        d="m 52.138838,35.94502 -3.074231,5.324739 6.752042,11.694377 -6.752042,11.694893 H 35.561039 L 28.808996,52.964654 c 0,0 5.16e-4,-5.18e-4 5.16e-4,-5.18e-4 h -6.148977 -5.16e-4 l 8.289414,14.357781 -8.288898,14.357262 h 6.148977 l 6.751527,-11.694892 h 13.504084 l 3.376022,5.847188 3.375504,5.847704 -6.751526,11.694377 c 0,0 -5.16e-4,0 -5.16e-4,0 l 3.074231,5.325256 h 5.16e-4 l 8.289417,-14.357263 16.578315,-5.16e-4 -3.074747,-5.324739 H 60.428771 L 53.676728,67.321917 60.428771,55.627024 h 13.503568 l 3.074747,-5.324739 H 60.428255 Z"
        id="path1521-4-1"
        inkscape:connector-curvature="0"
