@@ -10,6 +10,7 @@ class Gem(Piece):
 
 
 class Flume(Board):
+    MAX_SCORES = 5
 
     def __init__(self, size: int = 13, turn: int = 1, field: np.ndarray = None, legal_moves: set = None,
                  last_move: Move = (0, 0)):
@@ -113,20 +114,14 @@ if __name__ == '__main__':
         from games.ai.decision_rule import find_best_move
         win = [0, 0]
 
-        for i in range(1):
+        for i in range(10):
             board = Flume(13)
-            print(board)
             while not board.is_win and not board.is_draw:
                 if board.turn == 1:
                     x, y = find_best_move(board, 1)
                 else:
-                    x, y = find_best_move(board, 0)
+                    x, y = find_best_move(board, 1)
                 board = board.move((x, y))
-                print(board)
-                print(board.evaluate(board._field[board.last_move]))
-                print(board.get_gem_count)
-            if board.is_draw:
-                print('round drawn!')
             else:
                 win[board.last_turn - 1] += 1
                 print('Player %i won!' % board.last_turn)
