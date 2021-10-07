@@ -89,4 +89,4 @@ class ReversiForm(AbstractGameForm):
             sign = '<'
         else:
             sign = '='
-        self.Scores.setText('Жёлтые: %i %s Фиолетовые: %i' % (y, sign, p))
+        self.Scores.setText('%s: %i %s %s: %i' % (self.PLAYERS[0], y, sign, self.PLAYERS[1], p))
