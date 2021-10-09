@@ -1,5 +1,8 @@
 <RCC>
   <qresource prefix="Icons">
+    <file>goldTitle.png</file>
+    <file>talpa.png</file>
+    <file>whiteTitle.png</file>
     <file>blackGem.png</file>
     <file>blueGem.png</file>
     <file>Flume.png</file>
