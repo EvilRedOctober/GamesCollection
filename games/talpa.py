@@ -30,7 +30,8 @@ class Talpa(Board):
         :param last_move: Position of last move.
         """
         if field is None:
-            field = np.array([[Tile(1) if (i+j) % 2 else Tile(2) for j in range(8)] for i in range(8)], dtype=object)
+            field = np.array([[Tile(1) if (i+j) % 2 else Tile(2) for j in range(size)] for i in range(size)],
+                             dtype=object)
         self._field = field
         self._size = size
         self._turn = turn
