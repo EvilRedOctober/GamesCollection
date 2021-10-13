@@ -10,6 +10,7 @@ from gui.logic.hare_and_wolves import HareForm
 from gui.logic.reversi import ReversiForm
 from gui.logic.checkers import CheckersForm
 from gui.logic.flume import FlumeForm
+from gui.logic.talpa import TalpaForm
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -35,6 +36,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                                self.decorator_set_game(CheckersForm()))
         self.toolBar.addAction(QtGui.QIcon(":/Icons/Flume.png"), "Флюм",
                                self.decorator_set_game(FlumeForm()))
+        self.toolBar.addAction(QtGui.QIcon(":/Icons/talpa.png"), "Тальпа",
+                               self.decorator_set_game(TalpaForm()))
 
     def decorator_set_game(self, game_form: AbstractGameForm):
         def wrapper():
