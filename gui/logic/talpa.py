@@ -40,3 +40,47 @@ class TalpaForm(HareForm):
     COMPUTER_WIN_TEXT = 'Победил компьютер!'
     FIRST_WIN_TEXT = 'Победили Белые!'
     SECOND_WIN_TEXT = 'Победили Жёлтые!'
+
+    def __init__(self, parent: QtWidgets.QWidget = None):
+        super(TalpaForm, self).__init__(parent)
+        self.boardFrame.layout().setSpacing(0)
+        # Add board edges (so the player knows how to build a path in the game)
+        self.boardFrame.layout().setAlignment(QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
+        self.upper_edge = QtWidgets.QWidget()
+        self.upper_edge.setFixedSize(0, 20)
+        self.lower_edge = QtWidgets.QWidget()
+        self.lower_edge.setFixedSize(0, 20)
+        self.left_edge = QtWidgets.QWidget()
+        self.left_edge.setFixedSize(20, 0)
+        self.right_edge = QtWidgets.QWidget()
+        self.right_edge.setFixedSize(20, 0)
+
+        # Change default position of game board (from (0, 1) to (1, 1))
+        self.boardField.setParent(None)
+        self.boardFrame.layout().addLayout(self.boardField, 1, 1)
+        self.boardFrame.layout().addWidget(self.lower_edge, 0, 1)
+        self.boardFrame.layout().addWidget(self.upper_edge, 2, 1)
+        self.boardFrame.layout().addWidget(self.left_edge, 1, 0)
+        self.boardFrame.layout().addWidget(self.right_edge, 1, 2)
+
+    def game_start(self):
+        super(TalpaForm, self).game_start()
+        # Length of board to draw edges
+        length = self.party.board._size * self.boardField.itemAt(1).widget().width()
+
+        # Set sizes and colors of edges
+        self.upper_edge.setFixedWidth(length)
+        self.lower_edge.setFixedWidth(length)
+        style_css = 'border: 2px outset rgb(125, 150, 200);'\
+                    'background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, '\
+                    'stop: 0 rgb(255, 255, 255), stop: 1 rgb(150, 150, 150));'
+        self.upper_edge.setStyleSheet(style_css)
+        self.lower_edge.setStyleSheet(style_css)
+
+        self.left_edge.setFixedHeight(length)
+        self.right_edge.setFixedHeight(length)
+        style_css = 'border: 2px outset rgb(125, 150, 200);'\
+                    'background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, '\
+                    'stop: 0 rgb(255, 255, 0), stop: 1 rgb(200, 150, 0));'
+        self.left_edge.setStyleSheet(style_css)
+        self.right_edge.setStyleSheet(style_css)
