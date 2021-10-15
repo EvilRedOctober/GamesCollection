@@ -4271,9 +4271,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.0683582"
-     inkscape:cx="406.87423"
-     inkscape:cy="1186.6803"
+     inkscape:zoom="0.75544333"
+     inkscape:cx="-447.80965"
+     inkscape:cy="1013.6019"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -5132,7 +5132,7 @@
          style="opacity:1;fill:url(#radialGradient1055-2-4);fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0.52916664;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke" />
     </g>
     <rect
-       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#ffffff;stroke-width:0.26458332;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#ff0500;stroke-width:0.26458332;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
        id="rect1004-2"
        width="37.253754"
        height="37.253754"
@@ -5672,7 +5672,9 @@
     </g>
     <g
        id="g3716"
-       transform="translate(61.425096,-111.43921)">
+       transform="translate(34.808586,-121.09893)"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96">
       <circle
          inkscape:export-ydpi="96"
          inkscape:export-xdpi="96"
@@ -5728,7 +5730,7 @@
     </g>
     <g
        id="g3724"
-       transform="translate(-45.215297,35.686133)"
+       transform="translate(-74.610676,35.686133)"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96">
       <circle
@@ -5774,7 +5776,7 @@
     </g>
     <g
        id="g8129"
-       transform="translate(-41.399064,9.2483573)"
+       transform="translate(-141.21328,-0.41135967)"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96">
       <circle
@@ -5804,7 +5806,7 @@
     </g>
     <g
        id="g8135"
-       transform="translate(-86.250685,-48.725961)"
+       transform="translate(-97.410952,-48.725961)"
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96">
       <circle
