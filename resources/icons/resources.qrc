@@ -1,5 +1,10 @@
 <RCC>
   <qresource prefix="Icons">
+    <file>greenDeadVirus.png</file>
+    <file>greenVirus.png</file>
+    <file>purpleDeadVirus.png</file>
+    <file>purpleVirus.png</file>
+    <file>VirusWar.png</file>
     <file>goldTitle.png</file>
     <file>talpa.png</file>
     <file>whiteTitle.png</file>
