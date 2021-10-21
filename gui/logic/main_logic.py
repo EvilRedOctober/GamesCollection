@@ -11,6 +11,7 @@ from gui.logic.reversi import ReversiForm
 from gui.logic.checkers import CheckersForm
 from gui.logic.flume import FlumeForm
 from gui.logic.talpa import TalpaForm
+from gui.logic.virus_war import VirusForm
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -38,6 +39,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                                self.decorator_set_game(FlumeForm()))
         self.toolBar.addAction(QtGui.QIcon(":/Icons/talpa.png"), "Тальпа",
                                self.decorator_set_game(TalpaForm()))
+        self.toolBar.addAction(QtGui.QIcon(":/Icons/VirusWar.png"), "Война вирусов",
+                               self.decorator_set_game(VirusForm()))
 
     def decorator_set_game(self, game_form: AbstractGameForm):
         def wrapper():
