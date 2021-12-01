@@ -97,20 +97,10 @@ class Talpa(Board):
                     # and remove other paths from new_paths
                     for k in range(len(new_paths)):
                         if (x, y) in new_paths[k] and k != first_path_index:
-                            try:
-                                new_paths[first_path_index] |= new_paths[k]
-                                new_paths.pop(k)
-                                first_path_index = first_path_index if first_path_index < k else first_path_index - 1
-                                break
-                            except IndexError as e:
-                                print(e)
-                                print('k', k, 'first_path_index', first_path_index)
-                                print('Old paths', self.paths)
-                                print('New paths', new_paths)
-                                print('Path lens', self.paths_lens)
-                                print(new_field)
-                                print(self)
-                                raise IndexError('Lol')
+                            new_paths[first_path_index] |= new_paths[k]
+                            new_paths.pop(k)
+                            first_path_index = first_path_index if first_path_index < k else first_path_index - 1
+                            break
         # 3) No other paths - create new path for new_paths and add current empty tile to it
         if first_path_index == -1:
             new_paths.append({(i, j), })
