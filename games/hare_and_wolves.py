@@ -144,24 +144,3 @@ class Hare_and_wolves(Board):
             # Reversing scores for hare because closest path is better
             scores = 100 - scores
         return scores
-
-
-if __name__ == '__main__':
-    from games.ai.decision_rule import find_best_move
-
-    def test():
-        wins = [0, 0]
-        for k in range(1, 26):
-            board = Hare_and_wolves()
-            while not board.is_win:
-                if board.turn == 2:
-                    move = find_best_move(board, 4)
-                else:
-                    move = find_best_move(board, 0)
-                board = board.move(move)
-            wins[board.last_turn - 1] += 1
-            print('Party %i. Win player %d!' % (k, board.last_turn))
-            print(board)
-        print(wins)
-
-    test()

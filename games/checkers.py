@@ -181,25 +181,3 @@ class Checkers(Board):
         elif self.can_attack and self.turn != player:
             scores -= 0.1 * scores
         return scores
-
-
-if __name__ == '__main__':
-    from games.ai.decision_rule import find_best_move
-
-    def test():
-        wins = [0, 0]
-        for k in range(10):
-            board = Checkers()
-            while not board.is_win:
-                if board.turn == 2:
-                    move = find_best_move(board, 6)
-                else:
-                    move = find_best_move(board, 4)
-                board = board.move(move)
-                print(board)
-                print('-'*32)
-            wins[board.last_turn - 1] += 1
-            print('Win player %d!' % board.last_turn)
-        print(wins)
-
-    test()

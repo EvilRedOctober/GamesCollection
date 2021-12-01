@@ -121,28 +121,3 @@ class Virus_war(Board):
                     elif self._field[i][j] == player:
                         opponent_killed += 1
         return player_moves_count + player_killed * 5 - opponent_moves_count - opponent_killed * 5
-
-
-if __name__ == '__main__':
-
-    def test():
-        from games.ai.decision_rule import find_best_move
-        win = [0, 0]
-
-        for i in range(1):
-            board = Virus_war(10)
-            print(board)
-            print(board.remaining_moves)
-            while not board.is_win and not board.is_draw:
-                if board.turn == 1:
-                    x, y = find_best_move(board, 2)
-                else:
-                    x, y = find_best_move(board, 2)
-                print('-'*32)
-                board = board.move((x, y))
-                print(board)
-            win[board.last_turn - 1] += 1
-            print('Player %i won!' % board.last_turn)
-        print(win)
-
-    test()

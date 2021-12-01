@@ -131,30 +131,3 @@ class Reversi(Board):
 
     def evaluate(self, player: int) -> float:
         return self._gem_counters[player] - self._gem_counters[Piece.opposite(player)]
-
-
-if __name__ == '__main__':
-
-    def test():
-        from games.ai.decision_rule import find_best_move
-        win = [0, 0]
-
-        for i in range(1):
-            board = Reversi(8)
-            print(board)
-            while not board.is_win and not board.is_draw:
-                if board.turn == 1:
-                    x, y = find_best_move(board, 1)
-                else:
-                    x, y = find_best_move(board, 0)
-                board = board.move((x, y))
-                print(board)
-            if board.is_draw:
-                print('round drawn!')
-            else:
-                win[board.turn - 1] += 1
-                print('Player %i won!' % board.last_turn)
-        print(win)
-
-
-    test()

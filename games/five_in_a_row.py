@@ -129,17 +129,3 @@ class Five_in_a_row(Board):
 
     def evaluate(self, player: int) -> float:
         return self.count_scores(player) * 1.1 + self.count_scores(Piece.opposite(player))
-
-
-if __name__ == '__main__':
-    from random import choice
-
-    def test():
-        for i in range(1):
-            board = Five_in_a_row(15)
-            while not board.is_win:
-                x, y = choice(list(board.legal_moves))
-                board = board.move((x, y))
-                print(board)
-
-    test()

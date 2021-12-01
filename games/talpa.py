@@ -136,24 +136,3 @@ class Talpa(Board):
         if enemy_scores == self._size ** 2:
             return -enemy_scores
         return player_scores - enemy_scores * 1.1
-
-
-if __name__ == '__main__':
-    from games.ai.decision_rule import find_best_move
-
-    def test():
-        wins = [0, 0]
-        for k in range(100):
-            board = Talpa()
-            while not board.is_win:
-                if board.turn == 2:
-                    move = find_best_move(board, 1)
-                else:
-                    move = find_best_move(board, 0, 20)
-                board = board.move(move)
-            wins[board.last_turn - 1] += 1
-            print('Party %i. Win player %d!' % (k, board.last_turn))
-            print(board)
-        print(wins)
-
-    test()

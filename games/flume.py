@@ -106,26 +106,3 @@ class Flume(Board):
             # If opponent can do additional moves then decrease scores
             scores -= additional_scores
         return scores
-
-
-if __name__ == '__main__':
-
-    def test():
-        from games.ai.decision_rule import find_best_move
-        win = [0, 0]
-
-        for i in range(10):
-            board = Flume(13)
-            while not board.is_win and not board.is_draw:
-                if board.turn == 1:
-                    x, y = find_best_move(board, 1)
-                else:
-                    x, y = find_best_move(board, 1)
-                board = board.move((x, y))
-            else:
-                win[board.last_turn - 1] += 1
-                print('Player %i won!' % board.last_turn)
-                print('Gems:', board.get_gem_count)
-        print(win)
-
-    test()
