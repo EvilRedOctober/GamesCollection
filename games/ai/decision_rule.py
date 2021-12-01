@@ -69,19 +69,3 @@ def find_best_move(board: Board, max_depth: int = 0, randomizing: int = 0) -> Un
             best_scores = scores
     return best_move
 
-
-if __name__ == '__main__':
-    from games.five_in_a_row import Five_in_a_row
-    wins = [0, 0]
-    for i in range(100):
-        test_board = Five_in_a_row(15)
-        while True:
-            if test_board.is_win:
-                print('Win player %d!' % test_board.last_turn)
-                wins[test_board.last_turn - 1] += 1
-                break
-            if test_board.is_draw:
-                print('Round draw!')
-                break
-            test_board = test_board.move(find_best_move(test_board, 0, 20 if test_board.turn == 1 else 0))
-    print(wins)
