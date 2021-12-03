@@ -28,26 +28,27 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         # Toolbar setting
         self.toolBar.addAction(QtGui.QIcon(":/Icons/5-in-a-row.png"),  "Пять в ряд",
-                               self.decorator_set_game(FiveForm()))
+                               self.decorator_set_game(FiveForm))
         self.toolBar.addAction(QtGui.QIcon(":/Icons/Hare&Wolves.png"), "Заяц и волки",
-                               self.decorator_set_game(HareForm()))
+                               self.decorator_set_game(HareForm))
         self.toolBar.addAction(QtGui.QIcon(":/Icons/reversi.png"), "Реверси",
-                               self.decorator_set_game(ReversiForm()))
+                               self.decorator_set_game(ReversiForm))
         self.toolBar.addAction(QtGui.QIcon(":/Icons/Checkers.png"), "Английские шашки",
-                               self.decorator_set_game(CheckersForm()))
+                               self.decorator_set_game(CheckersForm))
         self.toolBar.addAction(QtGui.QIcon(":/Icons/Flume.png"), "Флюм",
-                               self.decorator_set_game(FlumeForm()))
+                               self.decorator_set_game(FlumeForm))
         self.toolBar.addAction(QtGui.QIcon(":/Icons/talpa.png"), "Тальпа",
-                               self.decorator_set_game(TalpaForm()))
+                               self.decorator_set_game(TalpaForm))
         self.toolBar.addAction(QtGui.QIcon(":/Icons/VirusWar.png"), "Война вирусов",
-                               self.decorator_set_game(VirusForm()))
+                               self.decorator_set_game(VirusForm))
 
-    def decorator_set_game(self, game_form: AbstractGameForm):
+    def decorator_set_game(self, game_form_class):
         def wrapper():
-            return self.set_game(game_form)
+            return self.set_game(game_form_class)
         return wrapper
 
-    def set_game(self, game_form: AbstractGameForm):
+    def set_game(self, game_form_class):
+        game_form: AbstractGameForm = game_form_class()
         if self.gameArea.layout().count() == 1:
             self.gameArea.layout().itemAt(0).widget().setParent(None)
         self.gameArea.layout().addWidget(game_form)
