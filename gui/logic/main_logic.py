@@ -41,6 +41,15 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                                self.decorator_set_game(TalpaForm))
         self.toolBar.addAction(QtGui.QIcon(":/Icons/VirusWar.png"), "Война вирусов",
                                self.decorator_set_game(VirusForm))
+        self.menu_2.insertActions(self.action_exit, self.toolBar.actions())
+        self.menu_2.insertSeparator(self.action_exit)
+
+        # Status bat settings
+        self.progressbar = QtWidgets.QProgressBar()
+        self.statusbar.addPermanentWidget(self.progressbar)
+        self.progressbar.setRange(0, 0)
+        self.progressbar.hide()
+        self.statusbar.showMessage("Выберите любую игру из меню")
 
     def decorator_set_game(self, game_form_class):
         def wrapper():
@@ -53,6 +62,17 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.gameArea.layout().itemAt(0).widget().setParent(None)
         self.gameArea.layout().addWidget(game_form)
         game_form.resizeSignal.connect(self.resize)
+        game_form.waitSignal.connect(self.show_progressbar)
+        self.show_progressbar(False)
+        self.statusbar.showMessage('Выберите параметры и начните игру')
+
+    def show_progressbar(self, flag: bool):
+        if flag:
+            self.progressbar.show()
+            self.statusbar.showMessage('Подождите...')
+        else:
+            self.progressbar.hide()
+            self.statusbar.showMessage('Выберите клетку для хода')
 
     def about(self):
         QtWidgets.QMessageBox.information(self, "О программе",
