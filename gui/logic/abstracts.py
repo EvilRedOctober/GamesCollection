@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """Contains abstract classes for PyQt forms"""
 
-from PyQt5 import QtWidgets, QtCore, QtGui
+from PyQt5 import QtWidgets, QtGui
 
-from basic.party import Party
+from basic.party import *
 from games.abstracts import Board
 from gui.forms.game_form import Ui_GameForm
 
@@ -42,7 +42,7 @@ class AbstractCell(QtWidgets.QWidget):
         brush = QtGui.QBrush(inner_color)
         p.fillRect(r, brush)
         pen = QtGui.QPen(inner_color)
-        if self.status == 1:
+        if self.isAvailable:
             pen = QtGui.QPen(self.HELP_COLOR)
         pen.setWidth(2)
         p.setPen(pen)
@@ -66,15 +66,20 @@ class AbstractGameForm(QtWidgets.QWidget, Ui_GameForm):
     BOARD_SIZES = ('8',)
     PLAYERS = ('Белые', 'Чёрные')
     RULES = "Здесь могла быть выша игра."
+    WIN_MESSAGE = ("Победили белые!", "Победили чёрные!")
     Board_Class = Board
     Cell_Class = AbstractCell
 
     resizeSignal = QtCore.pyqtSignal(int, int)
+    waitSignal = QtCore.pyqtSignal(bool)
 
     def __init__(self, parent: QtWidgets.QWidget = None):
         super(AbstractGameForm, self).__init__(parent)
         self.setupUi(self)
         self.party = None
+        self.size = None
+        self.setup_form()
+        self.blocked = False
 
     def setup_form(self):
         self.difficultyLevelsCombo.addItems(self.DIFFICULTY_LEVELS.keys())
@@ -87,10 +92,14 @@ class AbstractGameForm(QtWidgets.QWidget, Ui_GameForm):
         # Game settings
         is_AI = self.isComputer.isChecked()
         difficulty_settings = self.DIFFICULTY_LEVELS[self.difficultyLevelsCombo.currentText()]
-        N = int(self.sizesCombo.currentText())
+        self.size = int(self.sizesCombo.currentText())
         AI_player = self.computerPlayerCombo.currentIndex() + 1
-        board = self.Board_Class(turn=1, size=N)
-        self.party = Party(self, board, is_AI, AI_player, difficulty_settings)
+        board = self.Board_Class(turn=1, size=self.size)
+        self.party = Party(board, is_AI, AI_player, difficulty_settings)
+        self.party.sendGameField.connect(self.update_values)
+        self.party.sendGameState.connect(self.update_state)
+        self.party.unblockGameForm.connect(self.unblocking)
+        self.party.waitSignal.connect(self.emit_waiting)
 
         # Field setup
         self.boardField.setSpacing(0)
@@ -98,52 +107,66 @@ class AbstractGameForm(QtWidgets.QWidget, Ui_GameForm):
         for i in reversed(range(self.boardField.count())):
             self.boardField.itemAt(i).widget().setParent(None)
         # Create new grid
-        for i in range(N):
-            for j in range(N):
+        for i in range(self.size):
+            for j in range(self.size):
                 w = self.Cell_Class(i, j, board.get_value(i, j))
                 w.clicked.connect(self.apply_move)
                 self.boardField.addWidget(w, i, j)
         # Do computer move or wait for player
-        self.party.run()
-        # Repaint and resize
-        self.update_values()
+        self.party.start(None)
         size = self.boardField.itemAtPosition(0, 0).widget().SIZE
-        width = N * size + 50 + self.settingsFrame.width()
-        height = N * size + 140
+        width = self.size * size + 50 + self.settingsFrame.width()
+        height = self.size * size + 140
         self.resizeSignal.emit(width, height)
 
-    def update_values(self):
-        available_moves = set(self.party.board.legal_moves)
+    def is_available_move(self, move, legal_moves):
+        return move in legal_moves
+
+    def update_values(self, field, legal_moves):
+        legal_moves = set(legal_moves)
         for i in reversed(range(self.boardField.count())):
             w = self.boardField.itemAt(i).widget()
-            value = self.party.board.get_value(w.x, w.y)
+            value = field[w.x][w.y]
             w.value = value
-            if value:
-                w.isAvailable = False
-            if (w.x, w.y) in available_moves:
-                w.status = 1
+            if self.is_available_move((w.x, w.y), legal_moves):
+                w.isAvailable = True
             else:
-                w.status = 0
+                w.isAvailable = False
             w.update()
 
     def apply_move(self, x, y):
-        res = self.party.do_move((x, y))
-        self.update_values()
-        if res:
+        self.waitSignal.emit(True)
+        if not self.blocked:
+            self.party.start((x, y))
+            self.blocked = True
+
+    def unblocking(self):
+        self.blocked = False
+
+    def emit_waiting(self, flag: bool):
+        self.waitSignal.emit(flag)
+
+    def update_state(self, status_code: int):
+        if status_code:
             for i in reversed(range(self.boardField.count())):
                 w = self.boardField.itemAt(i).widget()
                 w.isAvailable = False
                 w.status = 0
-            if res == 3:
+            if status_code == DRAW:
                 QtWidgets.QMessageBox.information(self,
                                                   "Ничья!",
                                                   "Никто не победил!",
                                                   buttons=QtWidgets.QMessageBox.Ok)
+            elif status_code == BAD_MOVE:
+                QtWidgets.QMessageBox.warning(self,
+                                              "Невозможный ход!",
+                                              "Данный ход нельзя совершить! Выберите другой ход!",
+                                              buttons=QtWidgets.QMessageBox.Ok)
             else:
-                if self.party.isAI and res == self.party.AI_player:
+                if self.party.isAI and status_code == self.party.AI_player:
                     text = "Победил компьютер!"
                 else:
-                    text = "Победили %s!" % self.computerPlayerCombo.itemText(res - 1).lower()
+                    text = self.WIN_MESSAGE[status_code - 1]
                 QtWidgets.QMessageBox.information(self,
                                                   "Конец игры!",
                                                   text,
