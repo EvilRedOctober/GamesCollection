@@ -58,6 +58,10 @@ class Board(ABC):
         return self._turn
 
     @property
+    def field(self):
+        return self._field
+
+    @property
     def last_turn(self) -> int:
         """Returns number of previous player."""
         return Piece.opposite(self._turn)
