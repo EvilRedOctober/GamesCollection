@@ -54,7 +54,7 @@ class FiveForm(AbstractGameForm):
 
     def is_available_move(self, move, legal_moves):
         x, y = move
-        if self.boardField.itemAtPosition(x, y).widget().value:
+        if self.boardField.itemAtPosition(x, y).widget().value == 0:
             return True
         return False
 
