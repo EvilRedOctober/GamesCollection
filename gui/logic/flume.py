@@ -32,3 +32,5 @@ class FlumeForm(ReversiForm):
             "игрок обязан выставить еще один камень на доску. Пропуск хода запрещен."
     Board_Class = Flume
     Cell_Class = FlumeCell
+
+    WIN_MESSAGE = ("Победили зелёные!", "Победили синие!")
