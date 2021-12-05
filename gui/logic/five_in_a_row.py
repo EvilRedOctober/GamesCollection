@@ -44,21 +44,24 @@ class FiveForm(AbstractGameForm):
             "Пересечения линий называются «пунктами». Наиболее распространённым является поле размером 15×15 " \
             "линий.\nИграют две стороны — «крестики» и «нолики». Каждая сторона использует свои собственные" \
             " фишки.\nКаждым ходом игрок выставляет фишку своей формы в один из свободных пунктов доски. " \
-            "Первый ход делают крестикие в центральный пункт доски. Далее ходы делаются по очереди.\n" \
+            "Первый ход делают крестики в центральный пункт доски. Далее ходы делаются по очереди.\n" \
             "Цель игры — первым построить фигурами своей формы непрерывный ряд из пяти фигур в горизонтальном, " \
             "вертикальном или диагональном направлении.\nЕсли доска заполнена и ни один из игроков не построил " \
             "ряд из пяти фигур, может быть объявлена ничья."
     Board_Class = Five_in_a_row
     Cell_Class = FiveCell
+    WIN_MESSAGE = ("Победили крестики!", "Победили нолики!")
 
-    def __init__(self, parent: QtWidgets.QWidget = None):
-        super(FiveForm, self).__init__(parent)
-        self.setup_form()
+    def is_available_move(self, move, legal_moves):
+        x, y = move
+        if self.boardField.itemAtPosition(x, y).widget().value:
+            return True
+        return False
 
-    def apply_move(self, x, y):
-        super(FiveForm, self).apply_move(x, y)
+    def update_state(self, status_code: int):
         # Needs to mark cells to draw win line
-        if self.party.board.is_win:
+        super(FiveForm, self).update_state(status_code)
+        if status_code == PLAYER_1_WIN or status_code == PLAYER_2_WIN:
             # Special attribute
             poses = self.party.board.win_pos
             # To get the line direction (diagonal, vertical, horizontal, reverse diagonal)
