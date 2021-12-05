@@ -16,13 +16,6 @@ class HareCell(AbstractCell):
     # Paths to the icons
     ICONS = (None, ":/Icons/hare.png", ":/Icons/wolf.png")
 
-    def __init__(self, *args, **kwargs):
-        super(HareCell, self).__init__(*args, **kwargs)
-        # To draw win line
-        self.type_of_win_line = 0
-        self.value = 0
-        self.status = 0
-
     def mouseReleaseEvent(self, event):
         if self.isAvailable:
             self.clicked.emit(self.x, self.y)
@@ -41,14 +34,10 @@ class HareForm(AbstractGameForm):
             "они окружили или прижали зайца (когда зайцу некуда ходить)."
     Board_Class = Hare_and_wolves
     Cell_Class = HareCell
-
-    COMPUTER_WIN_TEXT = 'Победил компьютер!'
-    FIRST_WIN_TEXT = 'Победил заяц!'
-    SECOND_WIN_TEXT = 'Победили волки!'
+    WIN_MESSAGE = ("Победил заяц!", "Победили волки!")
 
     def __init__(self, parent: QtWidgets.QWidget = None):
         super(HareForm, self).__init__(parent)
-        self.setup_form()
         self.figure_selected = None
 
     def game_start(self):
@@ -59,53 +48,27 @@ class HareForm(AbstractGameForm):
 
     def undo_selection(self):
         self.figure_selected = None
-        self.update_values()
+        self.party.start(None)
 
-    def update_values(self):
-        available_moves = set(self.party.board.legal_moves)
+    def is_available_move(self, move, legal_moves):
         # If no figure selected then mark available figures
         # Else mark available moves for selected figure
-        available_moves = [moves[1] for moves in available_moves if self.figure_selected == moves[0]] if \
-            self.figure_selected else [moves[0] for moves in available_moves]
-        for i in reversed(range(self.boardField.count())):
-            w = self.boardField.itemAt(i).widget()
-            value = self.party.board.get_value(w.x, w.y)
-            w.value = value
-            if (w.x, w.y) in available_moves:
-                w.status = 1
-                w.isAvailable = True
-            else:
-                w.status = 0
-                w.isAvailable = False
-            w.update()
+        if self.blocked:
+            return False
+        available_moves = [moves[1] for moves in legal_moves if self.figure_selected == moves[0]] if \
+            self.figure_selected else [moves[0] for moves in legal_moves]
+        return move in available_moves
+
+    def update_values(self, field, legal_moves):
+        super(HareForm, self).update_values(field, legal_moves)
 
     def apply_move(self, x, y):
-        self.update_values()
-        if self.figure_selected is None:
-            self.figure_selected = (x, y)
-            self.update_values()
-            return
-        res = self.party.do_move((self.figure_selected, (x, y)))
-        self.figure_selected = None
-        self.update_values()
-        if res:
-            for i in range(self.boardField.count()):
-                w = self.boardField.itemAt(i).widget()
-                w.isAvailable = False
-                w.status = 0
-            if res < 3:
-                if self.party.isAI and res == self.party.AI_player:
-                    text = self.COMPUTER_WIN_TEXT
-                elif res == 1:
-                    text = self.FIRST_WIN_TEXT
-                else:
-                    text = self.SECOND_WIN_TEXT
-                QtWidgets.QMessageBox.information(self,
-                                                  "Конец игры!",
-                                                  text,
-                                                  buttons=QtWidgets.QMessageBox.Ok)
-            else:
-                QtWidgets.QMessageBox.information(self,
-                                                  "Ничья!",
-                                                  "Никто не победил!",
-                                                  buttons=QtWidgets.QMessageBox.Ok)
+        if not self.blocked:
+            if self.figure_selected is None:
+                self.figure_selected = (x, y)
+                self.party.start(None)
+                return
+            self.waitSignal.emit(True, None)
+            self.party.start((self.figure_selected, (x, y)))
+            self.blocked = True
+            self.figure_selected = None
