@@ -38,8 +38,8 @@ class TalpaForm(HareForm):
     Cell_Class = TalpaCell
 
     COMPUTER_WIN_TEXT = 'Победил компьютер!'
-    FIRST_WIN_TEXT = 'Победили Белые!'
-    SECOND_WIN_TEXT = 'Победили Жёлтые!'
+
+    WIN_MESSAGE = ("Победили белые!", "Победили жёлтые!")
 
     def __init__(self, parent: QtWidgets.QWidget = None):
         super(TalpaForm, self).__init__(parent)
@@ -66,7 +66,7 @@ class TalpaForm(HareForm):
     def game_start(self):
         super(TalpaForm, self).game_start()
         # Length of board to draw edges
-        length = self.party.board._size * self.boardField.itemAt(1).widget().width()
+        length = self.size * self.boardField.itemAt(1).widget().width()
 
         # Set sizes and colors of edges
         self.upper_edge.setFixedWidth(length)
