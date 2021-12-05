@@ -63,16 +63,17 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.gameArea.layout().addWidget(game_form)
         game_form.resizeSignal.connect(self.resize)
         game_form.waitSignal.connect(self.show_progressbar)
-        self.show_progressbar(False)
-        self.statusbar.showMessage('Выберите параметры и начните игру')
+        self.show_progressbar(False, 'Выберите параметры и начните игру')
 
-    def show_progressbar(self, flag: bool):
+    def show_progressbar(self, flag: bool, msg=None):
         if flag:
             self.progressbar.show()
-            self.statusbar.showMessage('Подождите...')
+            msg = msg or 'Подождите...'
+            self.statusbar.showMessage(msg)
         else:
             self.progressbar.hide()
-            self.statusbar.showMessage('Выберите клетку для хода')
+            msg = msg or 'Выберите клетку для хода'
+            self.statusbar.showMessage(msg)
 
     def about(self):
         QtWidgets.QMessageBox.information(self, "О программе",

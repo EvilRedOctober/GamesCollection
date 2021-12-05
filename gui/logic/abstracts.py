@@ -71,7 +71,7 @@ class AbstractGameForm(QtWidgets.QWidget, Ui_GameForm):
     Cell_Class = AbstractCell
 
     resizeSignal = QtCore.pyqtSignal(int, int)
-    waitSignal = QtCore.pyqtSignal(bool)
+    waitSignal = QtCore.pyqtSignal(bool, str)
 
     def __init__(self, parent: QtWidgets.QWidget = None):
         super(AbstractGameForm, self).__init__(parent)
@@ -135,7 +135,7 @@ class AbstractGameForm(QtWidgets.QWidget, Ui_GameForm):
             w.update()
 
     def apply_move(self, x, y):
-        self.waitSignal.emit(True)
+        self.waitSignal.emit(True, None)
         if not self.blocked:
             self.party.start((x, y))
             self.blocked = True
@@ -143,8 +143,8 @@ class AbstractGameForm(QtWidgets.QWidget, Ui_GameForm):
     def unblocking(self):
         self.blocked = False
 
-    def emit_waiting(self, flag: bool):
-        self.waitSignal.emit(flag)
+    def emit_waiting(self, flag: bool, msg: str = None):
+        self.waitSignal.emit(flag, msg)
 
     def update_state(self, status_code: int):
         if status_code:
@@ -157,6 +157,7 @@ class AbstractGameForm(QtWidgets.QWidget, Ui_GameForm):
                                                   "Ничья!",
                                                   "Никто не победил!",
                                                   buttons=QtWidgets.QMessageBox.Ok)
+                self.emit_waiting(False, "Ничья!")
             elif status_code == BAD_MOVE:
                 QtWidgets.QMessageBox.warning(self,
                                               "Невозможный ход!",
@@ -171,3 +172,4 @@ class AbstractGameForm(QtWidgets.QWidget, Ui_GameForm):
                                                   "Конец игры!",
                                                   text,
                                                   buttons=QtWidgets.QMessageBox.Ok)
+                self.emit_waiting(False, text)
