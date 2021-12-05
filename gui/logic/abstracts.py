@@ -128,6 +128,7 @@ class AbstractGameForm(QtWidgets.QWidget, Ui_GameForm):
             w = self.boardField.itemAt(i).widget()
             value = field[w.x][w.y]
             w.value = value
+            w.status = 0
             if self.is_available_move((w.x, w.y), legal_moves):
                 w.isAvailable = True
             else:

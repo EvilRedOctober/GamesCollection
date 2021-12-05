@@ -19,7 +19,7 @@ class ReversiCell(AbstractCell):
         super(ReversiCell, self).paintEvent(*args, **kwargs)
         p = QtGui.QPainter(self)
         p.setRenderHint(p.Antialiasing)
-        if self.status == 2:
+        if self.status == 1:
             pen = QtGui.QPen(self.LAST_TURN_COLOR)
             pen.setWidth(2)
             p.setPen(pen)
@@ -30,7 +30,7 @@ class ReversiForm(AbstractGameForm):
     DIFFICULTY_LEVELS = {'Легко': {'max_depth': 0}, 'Среднее': {'max_depth': 2}, 'Сложно': {'max_depth': 3}}
     BOARD_SIZES = ('8', '10', '12')
     PLAYERS = ('Жёлтые', 'Фиолетовые')
-    RULES = "Реверси (0телло).\n\n" \
+    RULES = "Реверси (Отелло).\n\n" \
             "В игре используется квадратная доска и специальные фишки, окрашенные с разных сторон в " \
             "контрастные цвета. Один из игроков играет жёлтыми, другой — фиолетовыми. Делая ход, игрок ставит " \
             "фишку на клетку доски «своим» цветом вверх. \nВ начале игры в центр доски выставляются 4 фишки в центр." \
@@ -49,6 +49,7 @@ class ReversiForm(AbstractGameForm):
             "фишек засчитывается ничья."
     Board_Class = Reversi
     Cell_Class = ReversiCell
+    WIN_MESSAGE = ("Победил жёлтые!", "Победили фиолетовые!")
 
     def __init__(self, parent: QtWidgets.QWidget = None):
         super(ReversiForm, self).__init__(parent)
@@ -60,26 +61,12 @@ class ReversiForm(AbstractGameForm):
         self.Scores = label
         self.boardFrame.layout().setSpacing(0)
         self.boardFrame.layout().addWidget(label, 1, 1)
-        self.setup_form()
 
-    def update_values(self):
-        available_moves = set(self.party.board.legal_moves)
-        for i in reversed(range(self.boardField.count())):
-            w = self.boardField.itemAt(i).widget()
-            value = self.party.board.get_value(w.x, w.y)
-            w.value = value
-            if value:
-                w.isAvailable = False
-            if (w.x, w.y) in available_moves:
-                w.status = 1
-                w.isAvailable = True
-            else:
-                w.isAvailable = False
-                w.status = 0
-            w.update()
+    def update_values(self, field, legal_moves):
+        super(ReversiForm, self).update_values(field, legal_moves)
         if self.party.board.last_move:
             x, y = self.party.board.last_move
-            self.boardField.itemAtPosition(x, y).widget().status = 2
+            self.boardField.itemAtPosition(x, y).widget().status = 1
             self.boardField.itemAtPosition(x, y).widget().update()
         # Change score label's text
         y, p = self.party.board.get_gem_count
