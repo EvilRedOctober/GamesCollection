@@ -126,7 +126,7 @@ class AbstractGameForm(QtWidgets.QWidget, Ui_GameForm):
         legal_moves = set(legal_moves)
         for i in reversed(range(self.boardField.count())):
             w = self.boardField.itemAt(i).widget()
-            value = field[w.x][w.y]
+            value = field[w.x][w.y].value
             w.value = value
             w.status = 0
             if self.is_available_move((w.x, w.y), legal_moves):
