@@ -41,22 +41,7 @@ class VirusForm(ReversiForm):
     Board_Class = Virus_war
     Cell_Class = VirusCell
 
-    def update_values(self):
-        available_moves = set(self.party.board.legal_moves)
-        for i in reversed(range(self.boardField.count())):
-            w = self.boardField.itemAt(i).widget()
-            value = self.party.board.get_value(w.x, w.y)
-            w.value = value
-            if value:
-                w.isAvailable = False
-            if (w.x, w.y) in available_moves:
-                w.status = 1
-                w.isAvailable = True
-            else:
-                w.isAvailable = False
-                w.status = 0
-            w.update()
-        if self.party.board.last_move:
-            x, y = self.party.board.last_move
-            self.boardField.itemAtPosition(x, y).widget().status = 2
-            self.boardField.itemAtPosition(x, y).widget().update()
+    WIN_MESSAGE = ("Победили зелёные!", "Победили фиолетовые!")
+
+    def renew_counter(self):
+        pass
