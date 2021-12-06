@@ -62,12 +62,7 @@ class ReversiForm(AbstractGameForm):
         self.boardFrame.layout().setSpacing(0)
         self.boardFrame.layout().addWidget(label, 1, 1)
 
-    def update_values(self, field, legal_moves):
-        super(ReversiForm, self).update_values(field, legal_moves)
-        if self.party.board.last_move:
-            x, y = self.party.board.last_move
-            self.boardField.itemAtPosition(x, y).widget().status = 1
-            self.boardField.itemAtPosition(x, y).widget().update()
+    def renew_counter(self):
         # Change score label's text
         y, p = self.party.board.get_gem_count
         if y > p:
@@ -77,3 +72,11 @@ class ReversiForm(AbstractGameForm):
         else:
             sign = '='
         self.Scores.setText('%s: %i %s %s: %i' % (self.PLAYERS[0], y, sign, self.PLAYERS[1], p))
+
+    def update_values(self, field, legal_moves):
+        super(ReversiForm, self).update_values(field, legal_moves)
+        if self.party.board.last_move:
+            x, y = self.party.board.last_move
+            self.boardField.itemAtPosition(x, y).widget().status = 1
+            self.boardField.itemAtPosition(x, y).widget().update()
+        self.renew_counter()
